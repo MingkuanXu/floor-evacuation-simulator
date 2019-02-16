@@ -49,47 +49,29 @@ class InteractiveFloorVisualizer{
 	    }
     }
     
-    private static int[] getMouseCoordinates(int N) {
+    private static int[] getMouseCoordinates(int M, int N) {
         // screen coordinates
         double x = StdDraw.mouseX();
         double y = StdDraw.mouseY();
+        System.out.printf("Coordinate: (%f, %f)\n",x,y);
 
         // convert to row i, column j
-        int i = (int) (N - Math.floor(y)-2);
-        int j = (int) (1 + Math.floor(x));
-        int vi = i-1;
-        int vj = j-1;
+        int i = (int) (M - Math.floor(y)-1);
+        int j = (int) (Math.floor(x));
+        System.out.printf("Coordinate: (%d, %d)\n",i,j);
+
         
-        return new int[] {vi,vj};
+        return new int[] {i,j};
     }
 
 	public static void main(String[] args) {
 		
-		  
-		int[][] matrix = {
-					{0,1,1,1,1,1,1},
-					{1,0,0,0,0,0,0},
-					{1,1,0,0,0,0,0},
-					{1,1,1,1,0,1,2},
-					{2,1,1,0,0,0,0}
-					};
-//		int[][] matrix = {
-//				{0,1,1},
-//				{1,0,0},
-//				{1,1,0},
-//				{1,1,1},
-//				{1,1,1},
-//				{1,1,0}
-//				};
-//		int[][] matrix = {
-//		{0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-//		{1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-//		{1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-//		{1,1,1,1,0,1,2,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1}
-//		};
+		FloorPlan fp = LoadFromPicture.loadFromPicture(new String());
+		int[][] matrix = fp.getMatrix();
 	    int M = matrix.length;
 	    int N = matrix[0].length;
-
+	    
+	    System.out.printf("M=%d, N=%d\n",M,N);
 	    // turn on animation mode
 	    StdDraw.show(0);
 	    // set background, leave margin for writing
@@ -107,12 +89,17 @@ class InteractiveFloorVisualizer{
 	    while(true) {
 		    	if(StdDraw.mousePressed()) {
 		    		initializeMatrix(M,N,matrix);
-		    		int pressedCol = getMouseCoordinates(N)[0]; 
-		    		int pressedRow = getMouseCoordinates(N)[1];
-		    		if(matrix[pressedCol][pressedRow]==0) {
-		    			StdDraw.setPenColor(StdDraw.ORANGE);
-		    			fillInCoordinates(pressedCol,pressedRow,M,'s');
-		    		}	
+		    		int pressedCol = getMouseCoordinates(M,N)[0]; 
+		    		int pressedRow = getMouseCoordinates(M,N)[1];
+		    		try{
+		    			if(matrix[pressedCol][pressedRow]==0) {
+		    				StdDraw.setPenColor(StdDraw.ORANGE);
+		    				fillInCoordinates(pressedCol,pressedRow,M,'s');
+		    			}
+		    		}
+		    		catch(IndexOutOfBoundsException e) {
+		    			// Nothing needs to be done here
+		    		}
 		    	}
             StdDraw.show(20);
 	    }

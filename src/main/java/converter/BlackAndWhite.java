@@ -2,8 +2,14 @@ package converter;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import javax.imageio.ImageIO;
+
+import sun.misc.IOUtils;
 
 
 public class BlackAndWhite {
@@ -11,13 +17,21 @@ public class BlackAndWhite {
 	public static void main(String[] args) {
 		BufferedImage img = null;
 		File f = null;
+		BlackAndWhite.class.getResourceAsStream("/com/foo/bar/file.txt");
 		//read image
 		try{
-			f = new File("../resources/raw1.jpg");
+			f = new File("./../../resources/raw1.jpg");
 			img = ImageIO.read(f);
+			
+//			InputStream inputStream = BlackAndWhite.class.getResourceAsStream("/src/main/.txt");
+//			File file;
+//			OutputStream outputStream = new FileOutputStream(file);
+//			IOUtils.copy(inputStream, outputStream);
+//			outputStream.close();
 		}catch(IOException e){
 			System.out.println(e);
 		}
+		
 
 	    //get image width and height
 	    int width = img.getWidth();
