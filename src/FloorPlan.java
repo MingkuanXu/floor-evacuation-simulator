@@ -52,7 +52,7 @@ public class FloorPlan {
 	 * Should be used for testing UI only. Will be deleted later.
 	 * @author Mingkuan Xu
 	 */
-	public int[][] simplySearchPath(int x, int y) {
+	public int[][] simpleSearchPath(int x, int y) {
 		
 		if(matrix[x][y]!=0) return new int[0][0]; // If the starting point is not empty, return.
 		
@@ -64,7 +64,7 @@ public class FloorPlan {
 		for(int i=x; i<length; i++) { 
 				coordinates.add(new int[] {i,y});
 		}
-		for(int j=y; j<width; j++) { 
+		for(int j=y+1; j<width; j++) { 
 			coordinates.add(new int[] {length-1,j});
 		}
 
@@ -76,7 +76,14 @@ public class FloorPlan {
 	 * This method is used to display all the entries in our matrix.
 	 */
 	public void displayMatrix() {
-		
+		for(int i=0; i<matrix.length;i++) {
+			for(int j=0; j<matrix[0].length; j++) {
+				System.out.printf("%d\t",matrix[i][j]);
+			}
+			System.out.println();
+		}
+		System.out.println();
+		return;
 	}
 	
 	
