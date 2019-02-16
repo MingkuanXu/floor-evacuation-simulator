@@ -2,15 +2,19 @@ import java.awt.Font;
 
 class InteractiveFloorVisualizer{
 	
+    private static final int DEFAULT_SIZE = 512;
+    private static final double ZOOM_CONSTANT = 1.8;
+
 	public static void main(String[] args) {
 		
 		  
-//		int[][] matrix = {
-//					{0,1,1,1,1,1,1},
-//					{1,0,0,0,0,0,0},
-//					{1,1,0,0,0,0,0},
-//					{1,1,1,1,0,1,2}
-//					};
+		int[][] matrix = {
+					{0,1,1,1,1,1,1},
+					{1,0,0,0,0,0,0},
+					{1,1,0,0,0,0,0},
+					{1,1,1,1,0,1,2},
+					{2,1,1,0,0,0,0}
+					};
 //		int[][] matrix = {
 //				{0,1,1},
 //				{1,0,0},
@@ -19,12 +23,12 @@ class InteractiveFloorVisualizer{
 //				{1,1,1},
 //				{1,1,0}
 //				};
-		int[][] matrix = {
-		{0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-		{1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-		{1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
-		{1,1,1,1,0,1,2,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1}
-		};
+//		int[][] matrix = {
+//		{0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
+//		{1,0,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
+//		{1,1,0,0,0,0,0,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1},
+//		{1,1,1,1,0,1,2,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1}
+//		};
 	    int M = matrix.length;
 	    int N = matrix[0].length;
 //	    int N = 20;
@@ -36,11 +40,13 @@ class InteractiveFloorVisualizer{
 	    // turn on animation mode
 	    StdDraw.show(0);
 	    // set background, leave margin for writing
-	    StdDraw.setXscale(-0.5, Math.max(M,N)+0.5);
-	    StdDraw.setYscale(-0.5, Math.max(M,N)+0.5);
+	    StdDraw.setCanvasSize((int)(ZOOM_CONSTANT * DEFAULT_SIZE * N / Math.max(M,N)), 
+	    						(int)(ZOOM_CONSTANT * DEFAULT_SIZE * M / Math.max(M,N)));
+	    StdDraw.setXscale(-0.5, N+0.5);
+	    StdDraw.setYscale(-0.5, M+0.5);
 	    StdDraw.clear();
 	    StdDraw.setPenColor(StdDraw.LIGHT_GRAY);
-	    StdDraw.filledRectangle(N/2.0,Math.max(M,N) - M/2.0, N/2.0,M/2.0);
+	    StdDraw.filledRectangle(N/2.0, M/2.0, N/2.0,M/2.0);
 //      StdDraw.filledSquare(N/2.0, N/2.0, N/2.0);
 
 	    
@@ -60,7 +66,7 @@ class InteractiveFloorVisualizer{
 	            		// Exit
 	                StdDraw.setPenColor(StdDraw.RED);
 	            }
-	            StdDraw.filledSquare(col + 1 - 0.5, Math.max(M,N) - row -1 + 0.5, 0.43);
+	            StdDraw.filledSquare(col + 1 - 0.5, M - row -1 + 0.5, 0.43);
 	        }
 	    }
 	    
