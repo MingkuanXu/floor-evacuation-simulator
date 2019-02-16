@@ -2,14 +2,9 @@ package converter;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 import javax.imageio.ImageIO;
-
-import sun.misc.IOUtils;
 
 
 public class BlackAndWhite {
@@ -17,10 +12,9 @@ public class BlackAndWhite {
 	public static void main(String[] args) {
 		BufferedImage img = null;
 		File f = null;
-		BlackAndWhite.class.getResourceAsStream("/com/foo/bar/file.txt");
 		//read image
 		try{
-			f = new File("./../../resources/raw1.jpg");
+			f = new File("raw-1.png");
 			img = ImageIO.read(f);
 			
 //			InputStream inputStream = BlackAndWhite.class.getResourceAsStream("/src/main/.txt");
@@ -57,7 +51,7 @@ public class BlackAndWhite {
 
 	    //write image
 	    try{
-	    		f = new File("../resources/initial1.jpg");
+	    		f = new File("initial-1.jpg");
 	    		ImageIO.write(img, "jpg", f);
 	    }catch(IOException e){
 	    		System.out.println(e);
