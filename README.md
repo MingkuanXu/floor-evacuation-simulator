@@ -1,15 +1,13 @@
 # Floor Evacuation Simulator
 
 Floor Evacuation Simulator is a 2019 HackNYU project. It can be used to analyze floor plan images and give the shortest evacuation path to the exit. It can also simulate fire occupying some areas and dynamically change the evacuation plan.
-![alt text](https://hacknyu.org/img/logo-icon.svg)
  
 ### Video Demo
 https://youtu.be/eP4IUesUKNg
 
 ### Prerequisites
 
-Java SE 8 & Eclipse
-
+Java SE 8
 
 ### Installing and Running
 
@@ -24,26 +22,17 @@ Double click to create an object. First three objects are exits(Green). Then dou
 
 Click right bottom to switch mode between fire mode and safe mode. When the button is red (fire mode), click and drag to create fire(Red). Clicking the button again will trun it back to green, in which double click a spot will start from there. If the fire blocks the path, the algorithm will find a new path. If no paths are available, a message of "Dead!" will display. 
 
-## Real World Application
+### Real World Application
 This can simulate an evacuation plan in a building and would help fire inspection evaluation.
 Also, it helps firefighter to determine the dead-corner in the building when they know the location of the fire.
 
+### Authors
 
-## Built With
+* **Mingkuan Xu** - mingkuan.xu@duke.edu
+* **Yunwei Zhang** - 820216705@qq.com
+* **Hongbo Sun** - hsun2@villanova.edu
+* **Chengyu Benton Li** - 19lic@ndnj.org
 
-* Java
-
-## Authors
-
-* **Mingkuan Xu** 
-* **Yunwei Zhang**
-* **Hongbo Sun**
-* **Chengyu Benton Li**
-
-
-
-
-
-## Acknowledgments
+### Acknowledgments
 
 * 2019 HackNYU
