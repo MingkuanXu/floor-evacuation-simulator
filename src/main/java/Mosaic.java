@@ -19,7 +19,7 @@ public class Mosaic {
     
     public static int[][] transformToMatrix(File file) throws Exception {
         
-        int size = 2;
+        int size = 1;
       
         BufferedImage bi = ImageIO.read(file); // 读取该图片
         int xcount = 0; // 方向绘制个数

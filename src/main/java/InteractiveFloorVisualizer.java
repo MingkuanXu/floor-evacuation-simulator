@@ -4,7 +4,7 @@ import java.util.List;
 public class InteractiveFloorVisualizer implements Runnable{
 	
     private static final int DEFAULT_SIZE = 512;
-    private static final double ZOOM_CONSTANT = 1.0;
+    private static final double ZOOM_CONSTANT = 2.0;
     private static final double EDGE = 0.5;
     
     private static final int EMPTY_VALUE = 0;
@@ -15,7 +15,7 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static final int BOTTON_VALUE_ADD_EXIT_MODE_OFF = 9;
     
     private static final int NUMBER_OF_EXIT = 3;
-    private static final double EXIT_RADIUS = 5;
+    private static final double EXIT_RADIUS = 4;
     
     // Start adding exit if turned on.
     private static boolean addExitMode = true; 

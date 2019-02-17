@@ -54,7 +54,7 @@ public class BFS {
 				if(inBound(tempi,tempj) && Mark[tempi][tempj] == 0) {
 
 					Mark[tempi][tempj] = Mark[i][j]+1;	//mark with distance
-					System.out.println("("+tempi+","+tempj+")"+" "+(Mark[tempi][tempj]-1));
+//					System.out.println("("+tempi+","+tempj+")"+" "+(Mark[tempi][tempj]-1));
 					Coordinate newCor = new Coordinate(tempi,tempj);
 					if(newCor.equals(Start))	return true;
 					q.add(newCor);				//add coordinate to queue
@@ -79,7 +79,7 @@ public class BFS {
 				if(inBound(tempi,tempj) && Mark[tempi][tempj] == 0) {
 
 					Mark[tempi][tempj] = Mark[i][j]+1;	//mark with distance
-					System.out.println("("+tempi+","+tempj+")"+" "+(Mark[tempi][tempj]-1));
+//					System.out.println("("+tempi+","+tempj+")"+" "+(Mark[tempi][tempj]-1));
 					Coordinate newCor = new Coordinate(tempi,tempj);
 					if(findPoint(newCor, Start))	return newCor;
 					q.add(newCor);				//add coordinate to queue
@@ -102,7 +102,6 @@ public class BFS {
 				tempj = curj + dir[t][1];
 				if(Mark[tempi][tempj] == step) {
 					Coordinate newCor = new Coordinate(tempi, tempj);
-					System.out.print(newCor.toString() + " ");
 					Route.add(newCor);
 					curi = tempi;
 					curj = tempj;
