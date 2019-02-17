@@ -1,27 +1,17 @@
-# Floor Plan Analysis
+# Floor Evacuation Simulator
 
-By using this program, we can analyze a floor plan and develop an evacuation plan
-
-
+Floor Evacuation Simulator is a 2019 HackNYU project. It can be used to analyze floor plan images and give the shorest evacuation path to the exit. It can also simulate fire occupying some areas and dynamically change evacuation plan.
+ 
 ### Prerequisites
 
 Java SE 8
+Eclipse
 
 
 ### Installing and Running
 
-Download/Clone the project and unzip.
-Copy the path of the folder.
- For instance "user/john/download/⁨floor-plan-analysis⁩"
+Download/Clone the project and unzip. Open the project in Eclipse and run the Viewer class.
 
-Then run the followeing scripts in terminal
-```
-cd [path of the folder]
-```
-
-```
-cd ⁨src⁩/⁨main⁩/⁨java⁩ java Viewer
-```
 If you successfully execute the program, you will a window says:
 FileChoseDemo with two Buttons "Open a File" and "Load Image"
 
@@ -29,7 +19,7 @@ Click "Open a File" and select a floor plan image(JPEG or PNG) to convert the fl
 After the image is processed, click "Load Image" to see a constructed map.
 Double click to create an object. First three objects are exits(Green). Then double click the place you want to start at. A path in yellow will guide you to the closest exit.
 
-Click right bottom to change create fire(Red). When after the color is red, double click to create a fire. If the fire blocks the path, the algorithm will find a new path. If no paths are available, a message of "Dead!" will display. 
+Click right bottom to switch mode between fire mode and safe mode. When the button is red (fire mode), click and drag to create fire(Red). Clicking the button again will trun it back to green, in which double click a spot will start from there. If the fire blocks the path, the algorithm will find a new path. If no paths are available, a message of "Dead!" will display. 
 
 ## Real World Application
 This can simulate an evacuation plan in a building and would help fire inspection evaluation.
@@ -53,4 +43,4 @@ Also, it helps firefighter to determine the dead-corner in the building when the
 
 ## Acknowledgments
 
-* HackNYU
+* 2019 HackNYU
