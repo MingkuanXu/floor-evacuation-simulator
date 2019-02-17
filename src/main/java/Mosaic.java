@@ -1,4 +1,4 @@
-package converter;
+
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,12 +13,13 @@ import javax.imageio.ImageIO;
 
 public class Mosaic {
     BufferedImage bi = null;
-    File file = null;
-    int [][] matrix = null;
-    public static void main(String[] args) throws Exception {
+    static int [][] matrix = null;
+    
+    static final int COLOR_THRESHOLD = 100;
+    
+    public static int[][] transformToMatrix(File file) throws Exception {
         
-        int size =20;
-        File file = new File("Before.jpg");
+        int size = 2;
       
         BufferedImage bi = ImageIO.read(file); // 读取该图片
         int xcount = 0; // 方向绘制个数
@@ -35,8 +36,11 @@ public class Mosaic {
         }
         int x = 0;   //坐标
         int y = 0;
+        matrix = new int[xcount][ycount];
         // 绘制马赛克(绘制矩形并填充颜色)
-        Graphics gs = bi.getGraphics();
+        System.out.println(xcount);
+        System.out.println(ycount);
+//        Graphics gs = bi.getGraphics();
         for (int i = 0; i < xcount; i++) {
             for (int j = 0; j < ycount; j++) {
                 //马赛克矩形格大小
@@ -62,17 +66,18 @@ public class Mosaic {
                     centerY += (mheight - 1) / 2;
                 }
                 Color color = new Color(bi.getRGB(centerX, centerY));
-                
-                gs.setColor(color);
-                gs.fillRect(x, y, mwidth, mheight);
+                int averageColor = (color.getGreen()+color.getRed()+color.getRed())/3;
+                if(averageColor<COLOR_THRESHOLD)
+                		matrix[i][j] = 0;
+                if(averageColor<COLOR_THRESHOLD)
+            			matrix[i][j] = 1;
                 y = y + size;// 计算下一个矩形的y坐标
             }
             y = 0;// 还原y坐标
             x = x + size;// 计算x坐标
         }
         
-       File sf = new File("After.png");
-      ImageIO.write(bi, "png", sf); 
+      return matrix;
         
     }
 }
