@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 
 public class InteractiveFloorVisualizer implements Runnable{
 	
@@ -18,6 +20,8 @@ public class InteractiveFloorVisualizer implements Runnable{
     private int[][] matrix;
     private Thread t;
     private String threadName;
+    
+    private static List<Coordinate> coordinates = new ArrayList<Coordinate>();
     
     public InteractiveFloorVisualizer(String name) {
     		this.threadName = name;
@@ -45,7 +49,7 @@ public class InteractiveFloorVisualizer implements Runnable{
      * @param matrix
      */
     private static void initializeMatrix(int M, int N, int[][] matrix) {
-	    StdDraw.clear();
+    		StdDraw.clear();
 	    StdDraw.setPenColor(StdDraw.GRAY);
 	    StdDraw.rectangle(N/2.0, M/2.0, N/2.0,M/2.0);
 	    for (int row = 0; row < M; row++) {
@@ -176,11 +180,23 @@ public class InteractiveFloorVisualizer implements Runnable{
 		    		else {
 			    		try{
 			    			if(matrix[pressedCol][pressedRow]==EMPTY_VALUE || matrix[pressedCol][pressedRow]==PATH_VALUE) {
-			    				if(addExitMode) 
+			    				if(addExitMode) {
 			    					matrix[pressedCol][pressedRow] = EXIT_VALUE;
+			    					coordinates.add(new Coordinate(pressedCol,pressedRow));
+			    				}
 			    				else { 
 			    					matrix = removeAllPath(matrix);
-			    					matrix[pressedCol][pressedRow] = PATH_VALUE;
+			    					BFS bFS = new BFS(matrix);
+			    					Coordinate targetExit = bFS.bfs(new Coordinate(pressedCol,pressedRow), coordinates.toArray(new Coordinate[0]));
+			    					if(targetExit!=null) {
+			    						List<Coordinate> path = bFS.findRoute(new Coordinate(pressedCol,pressedRow), targetExit, bFS.Mark);
+			    						for(Coordinate each:path) {
+			    							matrix[each.x][each.y] = PATH_VALUE;
+			    						}
+			    					}
+			    					else
+			    						System.out.println("Dead!");
+			    					
 			    				}
 			    			}
 			    		}		    		
@@ -250,10 +266,10 @@ public class InteractiveFloorVisualizer implements Runnable{
 		 */
 	
 //		
-//		int[][] matrix = {{1,0,0,0,0,1},
-//				  {1,0,0,1,1,1},
-//				  {1,1,1,1,1,1}};
-//		visualize(matrix);
+		int[][] matrix = {{1,0,0,0,0,1},
+				  {1,0,0,1,1,1},
+				  {1,1,1,0,1,1}};
+		visualize(matrix);
 }
 
 	public void setMatrix(int[][] matrix) {

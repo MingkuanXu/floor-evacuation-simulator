@@ -4,8 +4,6 @@ import java.util.List;
 public class FloorPlan {
 
 	private int[][] matrix;
-	private int length;
-	private int width;
 	
 	public FloorPlan() {
 	}
@@ -27,23 +25,6 @@ public class FloorPlan {
 	public void setCoordinate(int x, int y, int value) {
 		matrix[x][y] = value;
 		return;
-	}
-	
-
-	/***
-	 * This method uses dfs to find the shortest path to the nearest exit.
-	 * @param x: starting coordinate x;
-	 * @param y: starting coordinate y;
-	 * @return a list of coordinates on the shortest path.
-	 * @author Hongbo Sun
-	 */
-	public int[][] dfsSearchPath(int x, int y){
-		
-		if(matrix[x][y]!=0) return new int[0][0]; // If the starting point is not empty, return.
-		
-		// Need to be implemented by SHB.
-		
-		return new int[0][0];
 	}
 	
 	

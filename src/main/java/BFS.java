@@ -4,7 +4,7 @@ public class BFS {
 	int count = 0;
 	int [][]dir = {{1,0},{0,1},{-1,0},{0,-1}};
 	Queue<Coordinate> q = new LinkedList<>();
-	private int [][]Map;		//input a map
+	private int [][] Map;		//input a map
 	protected int [][]Mark;		//represents the minium step, mark Mark with 0 and -1
 	private int cols; 			//Number of colomns
 	int rows; 			//Number of rows
@@ -65,7 +65,7 @@ public class BFS {
 		return false;			//return the distance
 	}
 	
-	public boolean bfs(Coordinate target, Coordinate[] Start) {
+	public Coordinate bfs(Coordinate target, Coordinate[] Start) {
 		q.add(target);							//initialize queue with Target coordinate
 		Mark[target.x][target.y] = 1;
 		count = 0;								//initialize count to 1
@@ -81,13 +81,13 @@ public class BFS {
 					Mark[tempi][tempj] = Mark[i][j]+1;	//mark with distance
 					System.out.println("("+tempi+","+tempj+")"+" "+(Mark[tempi][tempj]-1));
 					Coordinate newCor = new Coordinate(tempi,tempj);
-					if(findPoint(newCor, Start))	return true;
+					if(findPoint(newCor, Start))	return newCor;
 					q.add(newCor);				//add coordinate to queue
 				}
 			}
 			q.remove();
 		}
-		return false;			//return the distance
+		return null;			//return the distance
 	}
 	
 	public ArrayList<Coordinate> findRoute(Coordinate Target, Coordinate Start, int[][]Mark) {
