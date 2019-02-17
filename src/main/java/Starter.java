@@ -31,14 +31,17 @@ public class Starter {
 		fp.displayMatrix();
 		
 		// Find path
-		int[][] path = fp.simpleSearchPath(x, y);
+		/*int[][] path = fp.simpleSearchPath(x, y);
 //		int[][] path = fp.dfsSearchPath(x, y);
 		
 		// Display coordinates
 		System.out.printf("Starting from coordinate (%d,%d), find path:\n",x,y);
 		printPathCoordinates(path);
-		
-		
+		*/
+		BFS try1 = new BFS(m);
+		Coordinate st = new Coordinate(1,1);
+		Coordinate end = new Coordinate(2,2);
+		System.out.println(try1.bfs(end, st));
 
 	} 
 }

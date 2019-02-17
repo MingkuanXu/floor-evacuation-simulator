@@ -4,17 +4,36 @@ public class BFS {
 	int count = 0;
 	int [][]dir = {{1,0},{0,1},{-1,0},{0,-1}};
 	Queue<Coordinate> q = new LinkedList<>();
-	int [][]Map;		//input a map
-	int [][]Mark;		//represents the minium step, mark Mark with 0 and -1
-	int cols; 			//Number of colomns
+	private int [][]Map;		//input a map
+	private int [][]Mark;		//represents the minium step, mark Mark with 0 and -1
+	private int cols; 			//Number of colomns
 	int rows; 			//Number of rows
-		
+	
+	public BFS(int [][]map) {
+		this.cols = map[0].length;
+		this.rows = map.length;
+		this.Map = map;
+		this.Mark = buildMark(map); 
+	}
+	
+	private static int[][] buildMark(int[][] map){
+		int [][]re = new int[map.length][map[0].length];
+		for(int i = 0; i<map.length; i++) {
+			for(int j = 0; j<map[0].length; j++) {
+				if(map[i][j] == 1)
+					re[i][j] = -1;
+			}
+		}
+		return re;
+	}
+	
 	public boolean inBound(int i, int j) {	//judge if out of bound
-		return(i>=0 && j>=0 && i<cols && j<rows);
+		return(i>=0 && j>=0 && i<rows && j<cols);
 	}
 	
 	public int bfs(Coordinate target, Coordinate Start) {
 		q.add(target);							//initialize queue with Target coordinate
+		Mark[target.x][target.y] = 1;
 		count = 1;								//initialize count to 1
 		while(q.peek()!=null) {					//while the queue is not empty(has coordinate ready to be searched
 			int i = q.peek().x;					//transfer coordinate to i,j
@@ -26,6 +45,7 @@ public class BFS {
 				if(inBound(tempi,tempj) && Mark[tempi][tempj] == 0) {
 					count++;					
 					Mark[tempi][tempj] = count;	//mark with distance
+					System.out.println("("+tempi+","+tempj+")"+" "+count);
 					Coordinate newCor = new Coordinate(tempi,tempj);
 					q.add(newCor);				//add coordinate to queue
 				}
