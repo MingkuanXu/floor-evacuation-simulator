@@ -28,7 +28,7 @@ public class Starter {
 		
 		// Display matrix
 		System.out.println("The input matrix is: ");
-		fp.displayMatrix();
+		fp.displayMatrix(); 
 		
 		// Find path
 		/*int[][] path = fp.simpleSearchPath(x, y);
@@ -40,8 +40,8 @@ public class Starter {
 		*/
 		BFS try1 = new BFS(m);
 		Coordinate st = new Coordinate(1,1);
-		Coordinate end = new Coordinate(2,2);
+		Coordinate end = new Coordinate(3,4);
 		System.out.println(try1.bfs(end, st));
-
+		try1.findRoute(end, st, try1.Mark);
 	} 
 }
