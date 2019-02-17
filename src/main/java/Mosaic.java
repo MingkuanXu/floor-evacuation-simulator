@@ -16,6 +16,13 @@ public class Mosaic {
     static int [][] matrix = null;
     
     static final int COLOR_THRESHOLD = 100;
+    public static int[][] transposedMatrix(int [][] m){
+        int[][] temp = new int[m[0].length][m.length];
+        for (int i = 0; i < m.length; i++)
+            for (int j = 0; j < m[0].length; j++)
+                temp[j][i] = m[i][j];
+        return temp;
+    }
     
     public static int[][] transformToMatrix(File file) throws Exception {
         
@@ -77,7 +84,7 @@ public class Mosaic {
             x = x + size;// 计算x坐标
         }
         
-      return matrix;
+      return transposedMatrix(matrix);
         
     }
 }
