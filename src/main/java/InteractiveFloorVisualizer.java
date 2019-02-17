@@ -14,9 +14,11 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static final int BOTTON_VALUE_ADD_EXIT_MODE_ON = 8;
     private static final int BOTTON_VALUE_ADD_EXIT_MODE_OFF = 9;
     
-    // Start adding exit if turned on.
-    private static boolean addExitMode = false; 
+    private static final int NUMBER_OF_EXIT = 3;
+    private static final double EXIT_RADIUS = 5;
     
+    // Start adding exit if turned on.
+    private static boolean addExitMode = true; 
     private int[][] matrix;
     private Thread t;
     private String threadName;
@@ -74,6 +76,11 @@ public class InteractiveFloorVisualizer implements Runnable{
 		            fillInCoordinates(row,col,M,'s');
 	            }   
 	        }
+	    }
+	    for(Coordinate each:coordinates) {
+            StdDraw.setPenColor(StdDraw.RED);
+//			StdDraw.filledCircle(each.x + 1 - EDGE, M - each.y -1 + EDGE, EXIT_RADIUS);
+			StdDraw.filledCircle(each.y + 1 - EDGE, M - each.x -1 + EDGE, EXIT_RADIUS);
 	    }
     }
     
@@ -183,6 +190,8 @@ public class InteractiveFloorVisualizer implements Runnable{
 			    				if(addExitMode) {
 			    					matrix[pressedCol][pressedRow] = EXIT_VALUE;
 			    					coordinates.add(new Coordinate(pressedCol,pressedRow));
+			    					if(coordinates.size()>=NUMBER_OF_EXIT)
+			    						addExitMode = false;
 			    				}
 			    				else { 
 			    					matrix = removeAllPath(matrix);
@@ -219,7 +228,7 @@ public class InteractiveFloorVisualizer implements Runnable{
 	
 	public static void main(String[] args) {
 		
-		/*
+
 		int[][] matrix = {
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,1,0,0,0,1},
@@ -263,12 +272,12 @@ public class InteractiveFloorVisualizer implements Runnable{
 				{1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
 				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 		};
-		 */
+
 	
 //		
-		int[][] matrix = {{1,0,0,0,0,1},
-				  {1,0,0,1,1,1},
-				  {1,1,1,0,1,1}};
+//		int[][] matrix = {{1,0,0,0,0,1},
+//				  {1,0,0,1,1,1},
+//				  {1,1,1,0,1,1}};
 		visualize(matrix);
 }
 
