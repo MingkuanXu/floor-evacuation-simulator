@@ -89,7 +89,7 @@ public class Viewer extends JPanel
                 File file = fc.getSelectedFile();
 				try {
 					fp = LoadFromPicture.loadFromPicture(file);
-					fp.displayMatrix();
+					//fp.displayMatrix();
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();

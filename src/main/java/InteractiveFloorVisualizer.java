@@ -187,12 +187,12 @@ public class InteractiveFloorVisualizer implements Runnable{
         // screen coordinates
         double x = StdDraw.mouseX();
         double y = StdDraw.mouseY();
-        System.out.printf("Coordinate: (%f, %f)\n",x,y);
+        //System.out.printf("Coordinate: (%f, %f)\n",x,y);
 
         // convert to row i, column j
         int i = (int) (M - Math.floor(y)-1);
         int j = (int) (Math.floor(x));
-        System.out.printf("Coordinate: (%d, %d)\n",i,j);
+        //System.out.printf("Coordinate: (%d, %d)\n",i,j);
 
         
         return new int[] {i,j};
@@ -201,12 +201,12 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static void visualize(int[][] matrix) {
 	    int M = matrix.length;
 	    int N = matrix[0].length;
-	    System.out.printf("M=%d, N=%d\n",M,N);
+	    //System.out.printf("M=%d, N=%d\n",M,N);
 	    
 		matrix = extendMatrix(matrix);
 	    M = matrix.length;
 	    N = matrix[0].length;
-	    System.out.printf("M=%d, N=%d\n",M,N);
+	    //System.out.printf("M=%d, N=%d\n",M,N);
 	    // turn on animation mode
 	    StdDraw.show(0);
 	    // set background, leave margin for writing
@@ -240,7 +240,7 @@ public class InteractiveFloorVisualizer implements Runnable{
 		    			matrix[M-1][N-1] = EMPTY_VALUE; 
 			    		initializeMatrix(M,N,matrix);		    			
 		    		}*/
-		    		System.out.printf("(%d, %d, %d, %d)",pressedRow,pressedCol, N - EXTEND_SIZE, N-1);
+		    		//System.out.printf("(%d, %d, %d, %d)",pressedRow,pressedCol, N - EXTEND_SIZE, N-1);
 		    		if(pressedRow > N - EXTEND_SIZE && pressedCol > M - EXTEND_SIZE) {
 		    			if(fireMode) {
 		    				fireMode = false;
