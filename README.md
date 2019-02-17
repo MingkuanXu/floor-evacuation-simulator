@@ -11,8 +11,8 @@ Java SE 8
 ### Installing and Running
 
 Download/Clone the project and unzip.
-Copy the path of the folder
-eg. user/john/download/⁨floor-plan-analysis⁩
+Copy the path of the folder.
+ For instance "user/john/download/⁨floor-plan-analysis⁩"
 
 Then run the followeing scripts in terminal
 ```
@@ -32,7 +32,7 @@ Double click to create an object. First three objects are exits(Green). Then dou
 Click right bottom to change create fire(Red). When after the color is red, double click to create a fire. If the fire blocks the path, the algorithm will find a new path. If no paths are available, a message of "Dead!" will display. 
 
 ## Real World Application
-This can simulate an evacuation plan in a building. This would help fire inspection evaluation
+This can simulate an evacuation plan in a building and would help fire inspection evaluation.
 Also, it helps firefighter to determine the dead-corner in the building when they know the location of the fire.
 
 
