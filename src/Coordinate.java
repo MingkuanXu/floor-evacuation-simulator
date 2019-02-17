@@ -6,5 +6,4 @@ public class Coordinate {
 		this.x = a;
 		this.y = b;
 	}
-
 }

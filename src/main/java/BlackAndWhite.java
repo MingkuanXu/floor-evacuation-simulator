@@ -1,4 +1,4 @@
-package converter;
+
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +22,7 @@ public class BlackAndWhite {
 //			OutputStream outputStream = new FileOutputStream(file);
 //			IOUtils.copy(inputStream, outputStream);
 //			outputStream.close();
+			
 		}catch(IOException e){
 			System.out.println(e);
 		}
