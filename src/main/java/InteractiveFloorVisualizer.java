@@ -17,16 +17,16 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static final int SAFE_VALUE = 5;
     
     private static final int NUMBER_OF_EXIT = 3;
-    private static final double EXIT_RADIUS = 0.5;
+    private static final double EXIT_RADIUS = 5;
     
-    private static final int EXTEND_SIZE = 5; 
+    private static final int EXTEND_SIZE = 10; 
     
 
     
     // Start adding exit if turned on. 
     private static boolean addExitMode = true;
     private static boolean fireMode = false;
-    private static final int FIRE_RADIUS = 3;
+    private static final int FIRE_RADIUS = 10;
     private int[][] matrix;
     private Thread t;
     private String threadName;
