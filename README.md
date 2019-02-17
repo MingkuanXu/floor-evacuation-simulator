@@ -7,8 +7,7 @@ https://youtu.be/eP4IUesUKNg
 
 ### Prerequisites
 
-Java SE 8
-Eclipse
+Java SE 8 & Eclipse
 
 
 ### Installing and Running
