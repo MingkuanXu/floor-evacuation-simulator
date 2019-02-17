@@ -21,7 +21,7 @@ public class BFS {
 		int [][]re = new int[map.length][map[0].length];
 		for(int i = 0; i<map.length; i++) {
 			for(int j = 0; j<map[0].length; j++) {
-				if(map[i][j] == 1)
+				if(map[i][j] == 1 || map[i][j] == 4 )
 					re[i][j] = -1;
 			}
 		}
