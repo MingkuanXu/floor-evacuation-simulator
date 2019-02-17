@@ -1,23 +1,20 @@
 # Floor Plan Analysis
 
-By usin  
+By using this program, we can analyze a floor plan and develop an evacuation plan
 
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
 ### Prerequisites
 
 Java SE 8
 
 
-### Installing
+### Installing and Running
 
 Download/Clone the project and unzip.
 Copy the path of the folder
 eg. user/john/download/⁨floor-plan-analysis⁩
 
-then run the followeing scripts in terminal
+Then run the followeing scripts in terminal
 ```
 cd [path of the folder]
 ```
@@ -25,10 +22,18 @@ cd [path of the folder]
 ```
 cd ⁨src⁩/⁨main⁩/⁨java⁩ java Viewer
 ```
+If you successfully executes the program, you will a window says:
+FileChoseDemo with two Buttons "Open a File" and "Load Image"
 
+Click "Open a File" and select an floor plan image(JPEG or PNG) to convert the floor plan to matrix
+After the image is processed, click "Load Image" to see a constructed map.
+Double click to create an object. First three objects are exits(Green). Then double click the place you wants to start at. A path in yellow will guide you to the closest exit.
 
+Click right buttom to change create fire(Red). When after the color is red, double click to create a fire. If the fire blocks the path, the algorithm will find a new path. If no paths are available, a message of "Dead!" will display. 
 
-
+## Real World Application
+This can simulate an evacuation plan in a building. This would help fire inspection evaluation
+Also, it helps fire fighter to determine the dead-corner in the building when they know the location of the fire.
 
 
 
