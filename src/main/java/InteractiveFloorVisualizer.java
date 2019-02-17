@@ -11,19 +11,29 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static final int BLOCKED_VALUE = 1;
     private static final int EXIT_VALUE = 2;
     private static final int PATH_VALUE = 3;
-    private static final int BOTTON_VALUE_ADD_EXIT_MODE_ON = 8;
-    private static final int BOTTON_VALUE_ADD_EXIT_MODE_OFF = 9;
+    private static final int BOTTON_VALUE_ADD_EXIT_MODE_ON = 8; // Deprecated
+    private static final int BOTTON_VALUE_ADD_EXIT_MODE_OFF = 9; // Deprecated
+    private static final int FIRE_VALUE = 4;
+    private static final int SAFE_VALUE = 5;
     
     private static final int NUMBER_OF_EXIT = 3;
-    private static final double EXIT_RADIUS = 4;
+    private static final double EXIT_RADIUS = 0.5;
     
-    // Start adding exit if turned on.
-    private static boolean addExitMode = true; 
+    private static final int EXTEND_SIZE = 5; 
+    
+
+    
+    // Start adding exit if turned on. 
+    private static boolean addExitMode = true;
+    private static boolean fireMode = false;
+    private static final int FIRE_RADIUS = 3;
     private int[][] matrix;
     private Thread t;
     private String threadName;
     
     private static List<Coordinate> coordinates = new ArrayList<Coordinate>();
+    
+    private static Coordinate currentStarting;
     
     public InteractiveFloorVisualizer(String name) {
     		this.threadName = name;
@@ -74,14 +84,33 @@ public class InteractiveFloorVisualizer implements Runnable{
 	            else if(matrix[row][col]==BOTTON_VALUE_ADD_EXIT_MODE_OFF || matrix[row][col]==PATH_VALUE) {
 	                StdDraw.setPenColor(StdDraw.ORANGE);
 		            fillInCoordinates(row,col,M,'s');
-	            }   
+	            } 
+	            else if(matrix[row][col]==FIRE_VALUE) {
+	                StdDraw.setPenColor(StdDraw.RED);
+		            fillInCoordinates(row,col,M,'s');
+	            } 
+	            else if(matrix[row][col]==SAFE_VALUE) {
+	                StdDraw.setPenColor(StdDraw.GREEN);
+		            fillInCoordinates(row,col,M,'s');
+	            }
 	        }
 	    }
 	    for(Coordinate each:coordinates) {
-            StdDraw.setPenColor(StdDraw.RED);
+            StdDraw.setPenColor(StdDraw.GREEN);
 //			StdDraw.filledCircle(each.x + 1 - EDGE, M - each.y -1 + EDGE, EXIT_RADIUS);
 			StdDraw.filledCircle(each.y + 1 - EDGE, M - each.x -1 + EDGE, EXIT_RADIUS);
 	    }
+    }
+    
+    
+    private static int[][] updateMatrixWithFire(int[][] matrix, int col, int row){
+    		for(int i=col-FIRE_RADIUS/2; i < col+FIRE_RADIUS/2; i++) {
+        		for(int j=row-FIRE_RADIUS/2; j < row+FIRE_RADIUS/2; j++) 
+        			if(matrix[i][j]!=BLOCKED_VALUE) {
+        				matrix[i][j] = FIRE_VALUE;
+        			}
+    		}
+    		return matrix;
     }
     
     /***
@@ -99,6 +128,20 @@ public class InteractiveFloorVisualizer implements Runnable{
     		return matrix;
     }
     
+    
+    private static int[][] updateMatrixWithBFS(int[][] matrix, int pressedCol,int pressedRow){
+		BFS bFS = new BFS(matrix);
+		Coordinate targetExit = bFS.bfs(new Coordinate(pressedCol,pressedRow), coordinates.toArray(new Coordinate[0]));
+		if(targetExit!=null) {
+			List<Coordinate> path = bFS.findRoute(new Coordinate(pressedCol,pressedRow), targetExit, bFS.Mark);
+			for(Coordinate each:path) {
+				matrix[each.x][each.y] = PATH_VALUE;
+			}
+		}
+		else
+			System.out.println("Dead!");
+		return matrix;
+    }
     /***
      * Add one column and one row to the input matrix with value 9
      * @param matrix
@@ -107,7 +150,7 @@ public class InteractiveFloorVisualizer implements Runnable{
     private static int[][] extendMatrix(int[][] matrix) {
     		int length = matrix.length;
     		int width = matrix[0].length;		
-    		int[][] extendedMatrix = new int[length+1][width+1];
+    		int[][] extendedMatrix = new int[length+EXTEND_SIZE][width+EXTEND_SIZE];
     		
     		// Copy original matrix
     		for(int i=0; i<length; i++) {
@@ -117,14 +160,24 @@ public class InteractiveFloorVisualizer implements Runnable{
     		}
     		
     		// Initialize new column and row with BOTTON_VALUE
-    		for(int i=0; i<length; i++) {
-    				extendedMatrix[i][width] = BLOCKED_VALUE;
+    		for(int i=0; i<length; i++){
+    			for(int j=width; j<width+EXTEND_SIZE;j++) 
+    				extendedMatrix[i][j] = BLOCKED_VALUE;
     		}
     		for(int j=0; j<width; j++) {
-				extendedMatrix[length][j] = BLOCKED_VALUE;
+    			for(int i=length; i<length+EXTEND_SIZE;i++) 
+				extendedMatrix[i][j] = BLOCKED_VALUE;
 		}
-    		extendedMatrix[length][width-1] = EMPTY_VALUE;
-    		extendedMatrix[length][width] = BOTTON_VALUE_ADD_EXIT_MODE_OFF;
+    		for(int i=length; i<length+EXTEND_SIZE;i++) {
+    			for(int j=width; j<width+EXTEND_SIZE;j++) {
+    				extendedMatrix[i][j] = SAFE_VALUE;
+    			}
+    		}
+
+    		
+    		//extendedMatrix[length][width-1] = EMPTY_VALUE;
+    		//extendedMatrix[length][width] = BOTTON_VALUE_ADD_EXIT_MODE_OFF;
+    	
     		
     		return extendedMatrix;
     		
@@ -146,10 +199,13 @@ public class InteractiveFloorVisualizer implements Runnable{
     }
     
     private static void visualize(int[][] matrix) {
-    		
-		matrix = extendMatrix(matrix);
 	    int M = matrix.length;
 	    int N = matrix[0].length;
+	    System.out.printf("M=%d, N=%d\n",M,N);
+	    
+		matrix = extendMatrix(matrix);
+	    M = matrix.length;
+	    N = matrix[0].length;
 	    System.out.printf("M=%d, N=%d\n",M,N);
 	    // turn on animation mode
 	    StdDraw.show(0);
@@ -171,8 +227,8 @@ public class InteractiveFloorVisualizer implements Runnable{
 		    		initializeMatrix(M,N,matrix);
 		    		int pressedCol = getMouseCoordinates(M,N)[0]; 
 		    		int pressedRow = getMouseCoordinates(M,N)[1];
-		    		System.out.printf("(%d, %d, %d, %d)",pressedRow,pressedCol, M-1, N-1);
-		    		if(pressedRow == N-1 && pressedCol == M-1) {
+
+		    		/*if(pressedRow == N-1 && pressedCol == M-1) {
 		    			addExitMode = false;
 		    			matrix[M-1][N-1] = BOTTON_VALUE_ADD_EXIT_MODE_OFF; 
 		    			matrix[M-1][N-2] = EMPTY_VALUE; 
@@ -183,6 +239,30 @@ public class InteractiveFloorVisualizer implements Runnable{
 		    			matrix[M-1][N-2] = BOTTON_VALUE_ADD_EXIT_MODE_ON; 
 		    			matrix[M-1][N-1] = EMPTY_VALUE; 
 			    		initializeMatrix(M,N,matrix);		    			
+		    		}*/
+		    		System.out.printf("(%d, %d, %d, %d)",pressedRow,pressedCol, N - EXTEND_SIZE, N-1);
+		    		if(pressedRow > N - EXTEND_SIZE && pressedCol > M - EXTEND_SIZE) {
+		    			if(fireMode) {
+		    				fireMode = false;
+		    				int length = matrix.length;
+		    				int width = matrix[0].length;
+			    	    		for(int i=length - EXTEND_SIZE; i<length;i++) {
+			    	    			for(int j=width - EXTEND_SIZE; j<width;j++) {
+			    	    				matrix[i][j] = SAFE_VALUE;
+			    	    			}
+			    	    		}
+		    			}
+		    			else {
+		    				fireMode = true;
+		    				int length = matrix.length;
+		    				int width = matrix[0].length;
+			    	    		for(int i=length - EXTEND_SIZE; i<length;i++) {
+			    	    			for(int j=width - EXTEND_SIZE; j<width;j++) {
+			    	    				matrix[i][j] = FIRE_VALUE;
+			    	    			}
+			    	    		}		    				
+		    			}
+			    		initializeMatrix(M,N,matrix);
 		    		}
 		    		else {
 			    		try{
@@ -193,19 +273,16 @@ public class InteractiveFloorVisualizer implements Runnable{
 			    					if(coordinates.size()>=NUMBER_OF_EXIT)
 			    						addExitMode = false;
 			    				}
-			    				else { 
+			    				else if(fireMode){
+			    					matrix = updateMatrixWithFire(matrix, pressedCol, pressedRow);
 			    					matrix = removeAllPath(matrix);
-			    					BFS bFS = new BFS(matrix);
-			    					Coordinate targetExit = bFS.bfs(new Coordinate(pressedCol,pressedRow), coordinates.toArray(new Coordinate[0]));
-			    					if(targetExit!=null) {
-			    						List<Coordinate> path = bFS.findRoute(new Coordinate(pressedCol,pressedRow), targetExit, bFS.Mark);
-			    						for(Coordinate each:path) {
-			    							matrix[each.x][each.y] = PATH_VALUE;
-			    						}
-			    					}
-			    					else
-			    						System.out.println("Dead!");
-			    					
+			    					matrix = updateMatrixWithBFS(matrix,currentStarting.x,currentStarting.y);
+			    					initializeMatrix(M,N,matrix);
+			    				}
+			    				else{ 
+			    					matrix = removeAllPath(matrix);
+			    					matrix = updateMatrixWithBFS(matrix,pressedCol,pressedRow);
+			    					currentStarting = new Coordinate(pressedCol,pressedRow);
 			    				}
 			    			}
 			    		}		    		
@@ -239,13 +316,13 @@ public class InteractiveFloorVisualizer implements Runnable{
 				{1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1,0,1,0,0,0,1},
 				{1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1},
 				{1,1,1,1,1,1,1,0,0,0,0,1,1,0,1,0,1,0,0,1,0,1,1,1,0,1,1,1,1,1,1,0,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,0,1,0,1,0,0,1,0,0,0,1},
-				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,2,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,1,1,1,1,1,1},
-				{1,1,1,1,1,1,1,0,0,0,1,0,0,1,1,0,1,1,1,0,0,1,0,1,0,1,1,1,1,0,0,0,0,1,0,1,0,1,2,1,1,1,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,0,0,1},
+				{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,1,1,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,1,0,1,0,0,1,0,0,1,0,0,1,0,1,0,1,0,1,1,1,1,1,1},
+				{1,1,1,1,1,1,1,0,0,0,1,0,0,1,1,0,1,1,1,0,0,1,0,1,0,1,1,1,1,0,0,0,0,1,0,1,0,1,1,1,1,1,1,0,0,1,0,1,0,0,1,0,1,0,1,0,0,0,0,1},
 				{1,1,1,1,1,1,1,0,0,0,0,0,1,1,0,0,1,1,1,0,0,1,0,1,0,0,0,1,0,0,1,0,1,1,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1,0,1,1,1,0,0,0,0,1},
 				{1,1,1,1,1,1,1,1,1,1,0,0,0,1,0,0,1,1,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0,0,0,0,0,1,1,1,1},
 				{1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,0,1,1,1,0,0,1,0,1,0,0,0,1,0,0,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,0,0,1,0,0,0,0,1},
 				{1,1,1,1,1,1,1,0,0,0,0,1,0,1,1,0,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,1,0,0,0,0,1},
-				{1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
+				{1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1,1,1,1,1,1},
 				{1,1,1,1,1,1,0,0,0,0,1,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,1,0,0,0,0,0,0,1},
 				{1,1,1,1,1,1,0,0,0,0,1,1,0,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,1,0,0,0,1},
 				{1,1,1,1,1,1,0,0,1,0,0,1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},

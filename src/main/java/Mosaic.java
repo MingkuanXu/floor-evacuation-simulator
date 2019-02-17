@@ -1,11 +1,6 @@
 
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -40,7 +35,7 @@ public class Mosaic {
         // 绘制马赛克(绘制矩形并填充颜色)
         System.out.println(xcount);
         System.out.println(ycount);
-//        Graphics gs = bi.getGraphics();
+
         for (int i = 0; i < xcount; i++) {
             for (int j = 0; j < ycount; j++) {
                 //马赛克矩形格大小
