@@ -1,7 +1,10 @@
 # Floor Evacuation Simulator
 
-Floor Evacuation Simulator is a 2019 HackNYU project. It can be used to analyze floor plan images and give the shorest evacuation path to the exit. It can also simulate fire occupying some areas and dynamically change evacuation plan.
+Floor Evacuation Simulator is a 2019 HackNYU project. It can be used to analyze floor plan images and give the shortest evacuation path to the exit. It can also simulate fire occupying some areas and dynamically change the evacuation plan.
  
+### Video Demo
+https://youtu.be/eP4IUesUKNg
+
 ### Prerequisites
 
 Java SE 8
